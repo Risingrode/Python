@@ -1,0 +1,89 @@
+{
+  "Table": [
+    {
+      "rowcount": 100
+    }
+  ],
+  "Table1": [
+    {
+      "rownum": 1,
+      "storeName": "京通新城",
+      "addressDetail": "朝阳路杨闸环岛西北京通苑30号楼一层南侧",
+      "pro": "24小时,Wi-Fi,点唱机,店内参观,礼品卡,手机点餐",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 2,
+      "storeName": "旧宫",
+      "addressDetail": "北京经济技术开发区（大兴）旧宫西路3号物美商城一层",
+      "pro": "Wi-Fi,店内参观,礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 3,
+      "storeName": "黄寺大街",
+      "addressDetail": "黄寺大街15号北京城乡黄寺商厦",
+      "pro": "Wi-Fi,点唱机,店内参观,礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 4,
+      "storeName": "四季青桥",
+      "addressDetail": "西四环北路117号北京欧尚超市F1、B1",
+      "pro": "Wi-Fi,礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 5,
+      "storeName": "亦庄",
+      "addressDetail": "北京经济开发区西环北路18号F1＋F2",
+      "pro": "Wi-Fi,礼品卡,手机点餐",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 6,
+      "storeName": "北京南站",
+      "addressDetail": "北京南站候车大厅B岛201号",
+      "pro": "Wi-Fi,礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 7,
+      "storeName": "北清路",
+      "addressDetail": "北京北清路1号146区",
+      "pro": "点唱机,礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 8,
+      "storeName": "巴沟",
+      "addressDetail": "巴沟路2号北京华联万柳购物中心一层",
+      "pro": "Wi-Fi,礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 9,
+      "storeName": "欢乐谷",
+      "addressDetail": "南磨房乡小武基北路北京欢乐谷内欢乐时光区一层",
+      "pro": "礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    },
+    {
+      "rownum": 10,
+      "storeName": "亦庄沃尔玛",
+      "addressDetail": "经济技术开发区文化园东路6号北京经开汇展中心1-2层",
+      "pro": "Wi-Fi,店内参观,礼品卡",
+      "provinceName": "北京市",
+      "cityName": "北京市"
+    }
+  ]
+}

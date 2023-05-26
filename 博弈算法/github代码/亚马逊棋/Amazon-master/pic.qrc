@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pic/arrow.gif</file>
+        <file>pic/black.gif</file>
+        <file>pic/blackChosen.gif</file>
+        <file>pic/emptyChosen.gif</file>
+        <file>pic/goal.gif</file>
+        <file>pic/table.gif</file>
+        <file>pic/white.gif</file>
+        <file>pic/whiteChosen.gif</file>
+        <file>pic/empty.gif</file>
+    </qresource>
+</RCC>

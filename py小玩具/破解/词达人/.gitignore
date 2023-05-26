@@ -1,0 +1,24 @@
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### CDR ###
+venv*/
+__pycache__/
+build/
+config/
+data/
+log/
+dist/
+file_version_info.txt
+!requirements.txt
+*.json
+*.ico
+*.bat
+*.zip
+test.py
+get_course_word.py
+setup.py
+main*.spec

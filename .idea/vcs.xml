@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/AI/Auto-GPT" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AI/ChuanhuChatGPT" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AI/chuanghuGPT/ChuanhuChatGPT" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AI/潘多拉/pandora" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/博弈棋/github/Games" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/博弈棋/github/test1/AlphaGo-Zero-Gobang" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/博弈棋/github/五子棋/test1/Gomoku" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/博弈棋/github/五子棋/test2/GobangChess_AI3.0" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/博弈棋/github/五子棋/test2/test3/gobang_AI" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/博弈棋/github/五子棋/test3/GobangChess_AI3.5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/博弈算法/github代码/Ghost" vcs="Git" />
+  </component>
+</project>
