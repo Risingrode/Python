@@ -93,6 +93,10 @@ class File(object):
         self.sumNum = []  # 存入所有数量
         np.set_printoptions(suppress=True)  # 禁止科学计数法
         # self.importData()  # 自动调用该函数
+        # 计算直径的数据
+        self.diameter=[]
+        # 总直径
+        self.allDiameter=0
 
     # 第二个窗口
     def Window2(self):
@@ -234,7 +238,7 @@ class File(object):
             str = "(使用根的数量求的结果)最后的Cr值是：{0}".format(self.ans1 / self.MaxArea)
             file.write(str + "\n")
         self.text_box.insert("insert",
-                             '结果是：{0}'.format(self.ans1 / self.MaxArea) + '\n')
+                             '最后普通求的结果是：{0}'.format(self.ans1 / self.MaxArea) + '\n')
         # 下面计算面积
         self.importAreaData()
 
@@ -242,7 +246,7 @@ class File(object):
     def importAreaData(self):
         self.Fun()
         self.MaxArea = 100
-        self.ans1 = 0.001
+        # self.ans1 = 0.001
         self.ans1 = 0  # 置为0  为了初始化
         res_file = 'D:\\resultArea.txt'
         with open(res_file, "w") as file:  # 清理一下
@@ -294,8 +298,81 @@ class File(object):
         with open(res_file, "a") as file:
             str = "(使用截面积求的结果)最后的Cr是：{0}".format(self.ans1 / self.MaxArea)
             file.write(str + "\n")
+
         self.text_box.insert("insert",
-                             '(使用截面积求的结果)结果是：{0}'.format(self.ans1 / self.MaxArea))
+                             '(使用截面积求的结果)结果是：{0}'.format(self.ans1 / self.MaxArea)+'\n')
+        self.importZhiJingData()
+
+    # 导入数据  直径关系
+    def importZhiJingData(self):
+        self.MaxArea = 100
+        # self.ans1 = 0.001
+        self.ans1 = 0  # 置为0  为了初始化
+
+        res_file = 'D:\\直径.txt'
+        with open(res_file, "w") as file:  # 清理一下
+            str = "直径操作的结果如下："
+            file.write(str + "\n")
+
+        AreaSum = self.allDiameter # 总直径
+        areaSum = self.diameter # 直径数组
+        num = self.rootNum
+        Ek = self.E0
+        Et = self.Ei
+
+        flag = False
+        for i in range(num):  # 第一层for循环
+            p1 = 0
+            p2 = 0
+
+            Propation = areaSum[i] / AreaSum
+
+            # 拿到迭代能量
+            for m in range(1000000000):
+                num1 = len(self.All[i])
+                for j in range(1, num1):
+                    if Ek > self.All[i][j]:  # TODO:严格大于，不知道该不该等于
+                        flag = True
+                        p1 = i  # 记录下标
+                        p2 = j
+                        Energy = self.All[i][j]  # 记录具体能量乘积
+                        break
+                if flag: break
+                Ek = Ek + Et  # 给它加上迭代值
+
+            F = 0  # 记录F
+            area2 = 0
+            num2 = 0
+            Data = []
+
+            for j in range(i + 1, num):
+                # 当前的单个直径
+                area2 = self.sumArea[j]
+                num2 = self.sumNum[j]
+                Data = self.All1[j]
+                f = self.Calc(area2, num2, Energy, Data)
+                F = F + f  # 进行主要计算
+            AreaSum = AreaSum - areaSum[i]  # 这里要减去
+            Propation = areaSum[i]/AreaSum
+            E1 = Ek * Propation
+
+            if area2:
+                if self.ans1 / self.MaxArea < F / area2:
+                    self.ans1 = F
+                    self.MaxArea = area2
+                with open(res_file, "a") as file:
+                    str = "文件{0}的断裂能是：{1}".format(self.txt_files[i],Energy)
+                    file.write(str + "\n")
+
+                Ek = Ek + E1
+
+        with open(res_file, "a") as file:
+            str = "(使用直径求的结果)最后的Cr是：{0}".format(self.ans1 / self.MaxArea)
+            file.write(str + "\n")
+
+        self.text_box.insert("insert",
+                             '(使用直径求的结果)结果是：{0}'.format(self.ans1 / self.MaxArea))
+
 
     # 预处理
     def Fun(self):
@@ -314,6 +391,11 @@ class File(object):
             self.rootArea = self.rootArea + KeyData[3][0]
             self.sumArea.append(KeyData[3][0])
             self.sumNum.append(KeyData[8][0])
+            self.diameter.append(KeyData[1][0])
+            self.allDiameter=self.allDiameter+KeyData[1][0]
+
+            # print("直径是：{0}".format(KeyData[1][0]))
+
             KeyData = KeyData[:-5]
             KeyData = KeyData[10:]
             for j in range(KeyData[8][0]):
