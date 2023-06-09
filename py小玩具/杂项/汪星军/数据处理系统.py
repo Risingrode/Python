@@ -325,8 +325,7 @@ class File(object):
             p1 = 0
             p2 = 0
 
-            Propation = areaSum[i] / AreaSum
-
+            # Propation = areaSum[i] / AreaSum
             # 拿到迭代能量
             for m in range(1000000000):
                 num1 = len(self.All[i])
@@ -358,12 +357,11 @@ class File(object):
 
             if area2:
                 if self.ans1 / self.MaxArea < F / area2:
-                    self.ans1 = F
+                    self.ans1 = F*(1+Propation)
                     self.MaxArea = area2
                 with open(res_file, "a") as file:
-                    str = "文件{0}的断裂能是：{1}".format(self.txt_files[i],Energy)
+                    str = "文件{0}的断裂能是：{1}".format(self.txt_files[i],Energy*(1+Propation))
                     file.write(str + "\n")
-
                 Ek = Ek + E1
 
         with open(res_file, "a") as file:
