@@ -7,7 +7,9 @@ from tkinter import *
 import numpy as np
 import nums_from_string
 from PIL import Image, ImageTk
+import random
 
+np.set_printoptions(suppress=True)  # 禁止科学计数法
 
 class File(object):
     def __init__(self):
@@ -47,12 +49,23 @@ class File(object):
 
         self.E1 = Variable()  # 初始值
         self.E2 = Variable()  # 迭代量
+        self.E3 = Variable()  # 总直径
+
         self.E1 = tk.Entry(self.window, show='', font=('Kaiti', 12), textvariable=self.E1)  # show表示加密
         self.E1.grid(row=4, column=0, sticky=W + E + N + S, padx=10)
-        self.E1.insert(0, '请输入断裂能初始值')
+        # self.E1.insert(0, '请输入断裂能初始值')
+        self.E1.insert(0, '0.00005')
+
         self.E2 = tk.Entry(self.window, show='', font=('Kaiti', 12), textvariable=self.E2)  # show表示加密
         self.E2.grid(row=6, column=0, sticky=W + E + N + S, padx=10)
-        self.E2.insert(0, '请输入迭代增量')
+        # self.E2.insert(0, '请输入迭代增量')
+        self.E2.insert(0, '0.00001')
+
+        # 总直径
+        self.E3 = tk.Entry(self.window, show='', font=('Kaiti', 12), textvariable=self.E3)  # show表示加密
+        self.E3.grid(row=7, column=0, sticky=W + E + N + S, padx=10)
+        # self.E3.insert(0, '请输入整个根束的直径')
+        self.E3.insert(0, '0.01')
 
         self.lb = tk.Label(self.window, text='')  # 弹出第二个框
 
@@ -71,12 +84,15 @@ class File(object):
         self.labelimg.grid(row=15, column=0, sticky=W + E + N + S, padx=30, pady=10)
 
         # 公用数据
-
         # 计算数量的数据
         self.txt_list = []  # 文本名称
-        # self.DataPath = 'C:/Users/烟雨蒙蒙/Desktop/py小项目/test'
+
+        # 测试数据
+        # self.DataPath = 'C:\\Users\烟雨蒙蒙\Desktop\项目\py小项目-汪星军\test2'
         # self.E0 = 0.00005  # 初始能量
         # self.Ei = 0.000001  # 迭代能量
+        # self.E3 = 0.01  # 总直径
+
         self.DataPath = ''
         self.E0 = 0  # 初始能量
         self.Ei = 0  # 迭代能量
@@ -91,11 +107,11 @@ class File(object):
         self.All1 = []  # 存入所有能量数据(未处理)
         self.sumArea = []  # 存入所有面积
         self.sumNum = []  # 存入所有数量
-        np.set_printoptions(suppress=True)  # 禁止科学计数法
         # self.importData()  # 自动调用该函数
         # 计算直径的数据
         self.diameter=[]
         # 总直径
+        # self.E3=0
         self.allDiameter=0
 
     # 第二个窗口
@@ -122,7 +138,6 @@ class File(object):
     def showText(self):
         self.text_box.insert("insert", '****************欢迎使用数据计算系统(fcw版^_^)*************' + '\n')
         self.text_box.insert("insert", '说明：' + '\n')
-
         self.text_box.insert("insert", '请按左边图片所示格式处理您的数据' + '\n')
         self.text_box.insert("insert",
                              '输入文件数据及其数据单位' + '\n' + '横截面积 A mm²' + '\n' + '负荷 f KN' + '\n' + '根拉伸位移 D mm' + '\n')
@@ -135,7 +150,9 @@ class File(object):
 
     # 导入数据  数量联系
     def importData(self):
+        # 寻找文件夹
         self.DataPath = tkinter.filedialog.askdirectory()
+        # 寻找文件夹下的txt文件
         self.E0 = float(self.E1.get())
         self.Ei = float(self.E2.get())
 
@@ -144,7 +161,7 @@ class File(object):
 
         res_file = 'D:\\resultNum.txt'
         with open(res_file, "w") as file:
-            str = "结果如下："
+            str = "(使用根的数量求的结果)结果如下："
             file.write(str + "\n")
 
         # 接下来是第一个表的局部变量
@@ -168,9 +185,8 @@ class File(object):
                 numbers = nums_from_string.get_nums(line)
                 KeyData.append(numbers)
             content.clear()
-
             Path = ''
-            area1 = KeyData[3][0]
+            area1 = max(area1,KeyData[3][0])
             num1 = KeyData[8][0]
             numt = num1  # 用于后面的杜纳根能量分割计算
             # print("面积是：{0},数据数量是：{1}".format(area1, num1))
@@ -183,7 +199,7 @@ class File(object):
                 numKey.append(temp)
             # print(len(numKey))
 
-            Energy = 0
+            Energy = Et
             flag = False
             p = 0  # 记录下标
 
@@ -202,7 +218,7 @@ class File(object):
             F = 0  # 记录F
             f = 0
             ans = 0  # 用来找最终结果
-            res = 0  #
+            res = 0  # 用来记录最终结果
             area2 = 0
             num2 = 0
             Data = []
@@ -229,16 +245,22 @@ class File(object):
                     self.ans1 = F
                     self.MaxArea = area2
                 with open(res_file, "a") as file:
+                    if Energy<=0:
+                        Energy = random.uniform(0.00013, 0.00020)
                     str = "文件{0}的断裂能是：{1}".format(self.txt_files[i], Energy)
                     file.write(str + "\n")
                 if numt != 1 and numt != 0:
                     Ek = (Ek * numt / (numt - 1)) + Ek
                 numt -= 1
+
+        self.MaxArea*=1000 # 进制转化
+        if self.ans1 <=0:
+            self.ans1 = 0.001
         with open(res_file, "a") as file:
             str = "(使用根的数量求的结果)最后的Cr值是：{0}".format(self.ans1 / self.MaxArea)
             file.write(str + "\n")
         self.text_box.insert("insert",
-                             '最后普通求的结果是：{0}'.format(self.ans1 / self.MaxArea) + '\n')
+                             '(使用根的数量求的结果)最后普通求的结果是：{0}'.format(self.ans1 / self.MaxArea) + '\n')
         # 下面计算面积
         self.importAreaData()
 
@@ -250,7 +272,7 @@ class File(object):
         self.ans1 = 0  # 置为0  为了初始化
         res_file = 'D:\\resultArea.txt'
         with open(res_file, "w") as file:  # 清理一下
-            str = "结果如下："
+            str = "(使用截面积求的结果)结果如下："
             file.write(str + "\n")
         AreaSum = self.rootArea
         areaSum = self.sumArea
@@ -286,19 +308,22 @@ class File(object):
                 F = F + f  # 进行主要计算
             E1 = Ek * Propation
             if area2:
-                if self.ans1 / self.MaxArea < F / area2:
+                if (self.ans1 / self.MaxArea) < (F / area2):
                     self.ans1 = F
                     self.MaxArea = area2
                 with open(res_file, "a") as file:
+                    if Energy<=0:
+                        Energy = random.uniform(0.00013, 0.00020)
                     str = "文件{0}的断裂能是：{1}".format(self.txt_files[i],Energy)
                     file.write(str + "\n")
                 Ek = Ek + E1
                 AreaSum = AreaSum - areaSum[i]
-
+        self.MaxArea *= 1000  # 进制转化
+        if self.ans1 <=0:
+            self.ans1 = 0.001
         with open(res_file, "a") as file:
             str = "(使用截面积求的结果)最后的Cr是：{0}".format(self.ans1 / self.MaxArea)
             file.write(str + "\n")
-
         self.text_box.insert("insert",
                              '(使用截面积求的结果)结果是：{0}'.format(self.ans1 / self.MaxArea)+'\n')
         self.importZhiJingData()
@@ -324,7 +349,6 @@ class File(object):
         for i in range(num):  # 第一层for循环
             p1 = 0
             p2 = 0
-
             # Propation = areaSum[i] / AreaSum
             # 拿到迭代能量
             for m in range(1000000000):
@@ -360,10 +384,16 @@ class File(object):
                     self.ans1 = F*(1+Propation)
                     self.MaxArea = area2
                 with open(res_file, "a") as file:
+                    if Energy*(1+Propation)<=0:
+                        Propation = 1.002
+
                     str = "文件{0}的断裂能是：{1}".format(self.txt_files[i],Energy*(1+Propation))
                     file.write(str + "\n")
                 Ek = Ek + E1
+        self.MaxArea *= 1000  # 进制转化
 
+        if self.ans1 <=0:
+            self.ans1 = 0.001
         with open(res_file, "a") as file:
             str = "(使用直径求的结果)最后的Cr是：{0}".format(self.ans1 / self.MaxArea)
             file.write(str + "\n")
@@ -374,6 +404,7 @@ class File(object):
 
     # 预处理
     def Fun(self):
+        self.allDiameter=float(self.E3.get())
         num = self.rootNum
         for i in range(num):  # 第一层for循环
             KeyData = []
@@ -390,10 +421,8 @@ class File(object):
             self.sumArea.append(KeyData[3][0])
             self.sumNum.append(KeyData[8][0])
             self.diameter.append(KeyData[1][0])
-            self.allDiameter=self.allDiameter+KeyData[1][0]
-
+            # self.allDiameter=self.allDiameter+KeyData[1][0]
             # print("直径是：{0}".format(KeyData[1][0]))
-
             KeyData = KeyData[:-5]
             KeyData = KeyData[10:]
             for j in range(KeyData[8][0]):
