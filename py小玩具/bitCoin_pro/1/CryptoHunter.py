@@ -62,14 +62,12 @@ def get_current_block_height():
     r = requests.get('https://blockchain.info/latestblock')
     return int(r.json()['height'])
 
-
 def check_for_shutdown(t):
     n = t.n
     if MIZ.fShutdown:
         if n != -1:
             MIZ.listfThreadRunning[n] = False
             t.exit = True
-
 
 class ExitedThread(threading.Thread):
     def __init__(self, arg, n):

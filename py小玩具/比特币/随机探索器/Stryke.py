@@ -22,7 +22,6 @@ def ripemd160(x):
     d.update(x)
     return d
 
-
 r = 0
 cores = 6
 
@@ -71,7 +70,7 @@ def seek(r, df_handler):
                     # fromaddr = "example@gmail.com"
                     # toaddr = "example@gmail.com"
                     # server.sendmail(fromaddr, toaddr, text)
-                    print(text)
+                    # print(text)
                     with open('Treasures.txt', 'a') as f:
                         f.write(priv)
                         f.write('     ')

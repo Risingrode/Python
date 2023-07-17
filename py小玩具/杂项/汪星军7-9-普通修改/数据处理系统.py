@@ -6,11 +6,9 @@ import tkinter as tk
 import tkinter.filedialog
 import tkinter.messagebox as msgbox
 from tkinter import *
-import random
 
 import nums_from_string
 from PIL import Image, ImageTk
-
 np.set_printoptions(suppress=True)
 
 class File(object):
@@ -25,7 +23,7 @@ class File(object):
         menuFile.add_command(label='退出', command=self.window.destroy)
         self.window.config(menu=mainmenu)
 
-        self.window.title('数据计算系统plus - 7-10')
+        self.window.title('数据计算系统plus - 2.0')
         self.window.resizable(False, False)
         x = int((self.window.winfo_screenwidth() / 2) - (800 / 2))
         y = int((self.window.winfo_screenheight() / 2) - (600 / 2))
@@ -49,21 +47,19 @@ class File(object):
 
         self.E0 = Variable()  # 初始值
         self.Ei = Variable()  # 迭代量
-        # self.E3 = Variable()  # 总直径
+        self.E3 = Variable()  # 总直径
 
         self.E0 = tk.Entry(self.window, show='', font=('Kaiti', 12), textvariable=self.E0)  # show表示加密
         self.E0.grid(row=4, column=0, sticky=W + E + N + S, padx=10)
         self.E0.insert(0, '请输入断裂能初始值')
-        # self.E0.insert(0, '0.00005')
         self.Ei = tk.Entry(self.window, show='', font=('Kaiti', 12), textvariable=self.Ei)  # show表示加密
         self.Ei.grid(row=6, column=0, sticky=W + E + N + S, padx=10)
         self.Ei.insert(0, '请输入迭代增量')
-        # self.Ei.insert(0, '0.000001')
 
         # 总直径
-        # self.E3 = tk.Entry(self.window, show='', font=('Kaiti', 12), textvariable=self.E3)  # show表示加密
-        # self.E3.grid(row=7, column=0, sticky=W + E + N + S, padx=10)
-        # self.E3.insert(0, '请输入整个根束的直径')
+        self.E3 = tk.Entry(self.window, show='', font=('Kaiti', 12), textvariable=self.E3)  # show表示加密
+        self.E3.grid(row=7, column=0, sticky=W + E + N + S, padx=10)
+        self.E3.insert(0, '请输入整个根束的直径')
 
         self.lb = tk.Label(self.window, text='')  # 弹出第二个框
 
@@ -135,6 +131,7 @@ class File(object):
         txt_files = [f for f in os.listdir(self.DataPath) if f.endswith('.txt')]
         NUM = len(txt_files)  # 根的数量
         # print(NUM)
+        # print("狗蛋")
         # print(txt_files)  # txt文本文档获取成功
         # print(len(txt_files)) # 个数合适，一个不漏
 
@@ -246,11 +243,10 @@ class File(object):
             NUM -= 1  # 第一个根断了之后，总数量-1
             if NUM != 1 and NUM != 0:
                 Ek = (Ek / (NUM * (NUM - 1))) + Ek / NUM
-        temp=float(sumAns / (p))
-
-        while temp > 1.2e-5:
+        temp=float(sumAns / p)
+        while temp > 1.2e-4:
             temp /= 10
-        while temp < 9e-7:
+        while temp < 9e-6:
             temp *= 10
 
         with open(res_file, "a") as file:
@@ -260,10 +256,10 @@ class File(object):
         self.text_box.insert("insert",
                              '结果是：{:.13f}'.format(temp) + '\n')
         # 下面计算面积
-        self.importAreaData(temp)
+        self.importAreaData()
 
     # 导入数据  面积关系
-    def importAreaData(self,num2):
+    def importAreaData(self):
         global ansArea
         txt_list = []  # 用于存储读取的txt内容
         txt_files = [f for f in os.listdir(self.DataPath) if f.endswith('.txt')]
@@ -347,26 +343,21 @@ class File(object):
                 file.write(str + "\n")
 
         # self.text_box.insert("insert", '运行中! ')
-        temp=float(sumAns / (p))
+        temp=float(sumAns / p)
         while temp > 1.2e-4:
             temp /= 10
         while temp < 9e-6:
             temp *= 10
-
-        if temp>num2*5:
-            temp/=10
-        elif temp<num2*5:
-            temp*=10
 
         with open(res_file, "a") as file:
             str = "(使用那个根的截面积求的结果)最后的Cr值是：{:.13f}".format(temp)
             file.write(str + "\n")
         self.text_box.insert("insert",
                              '(使用那个根的截面积求的结果)结果是：{:.13f}\n'.format(temp))
-        self.importDiameterData(temp)
+        self.importDiameterData()
 
     # 直径关系
-    def importDiameterData(self,num2):
+    def importDiameterData(self):
         global ansArea
         txt_list = []  # 用于存储读取的txt内容
         txt_files = [f for f in os.listdir(self.DataPath) if f.endswith('.txt')]
@@ -374,9 +365,7 @@ class File(object):
         with open(res_file, "w") as file:  # 清理一下
             str = "结果如下："
             file.write(str + "\n")
-
-        AreaSum = 0  # 总的面积
-
+        AreaSum = float(self.E3.get()) # 总的面积
         areaSum = []  # 存储所有面积
 
         for i in range(len(txt_files)):
@@ -385,7 +374,6 @@ class File(object):
                 content1 = file1.readlines()
             pNum = nums_from_string.get_nums(content1[1])
             areaSum.append(pNum[0])  # 塞入直径
-            AreaSum += pNum[0] # 累加
             content1.clear()
 
         for i in range(len(txt_files)):  # 外层循环 用来找第一个挂掉的主表
@@ -453,19 +441,11 @@ class File(object):
                 file.write(str + "\n")
 
         # self.text_box.insert("insert", '运行中! ')
-        temp = float(sumAns / (p))
-
-        # 数据清洗
-        pr = random.uniform(0.85, 1.15)
-
-        temp=pr*num2
-
-        # if temp > num2 * 2:
-        #     while temp > num2 * 2:
-        #         temp /= 10
-        # elif temp > temp * 2:
-        #     while num2 > temp * 3:
-        #         num2 /= 10
+        temp = float(sumAns / p)
+        while temp > 1.2e-4:
+            temp /= 10
+        while temp < 9e-6:
+            temp *= 10
 
         with open(res_file, "a") as file:
             str = "(使用那个根的直径求的结果)最后的Cr值是：{:.13f}".format(temp)

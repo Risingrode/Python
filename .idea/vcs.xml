@@ -7,6 +7,8 @@
     <mapping directory="$PROJECT_DIR$/AI/chuanghuGPT/ChuanhuChatGPT" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/AI/潘多拉/pandora" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/py小玩具/BTC-2023/AIBitcoin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/py小玩具/BTC-2023/CryptoDeepTools" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/博弈棋/github/Games" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/博弈棋/github/test1/AlphaGo-Zero-Gobang" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/博弈棋/github/五子棋/test1/Gomoku" vcs="Git" />

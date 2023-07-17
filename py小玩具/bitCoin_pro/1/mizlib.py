@@ -11,6 +11,7 @@ import tkinter.scrolledtext as tkst
 from tkinter.ttk import *
 import secp256k1 as ice
 import string
+
 import re
 try:
     import base58

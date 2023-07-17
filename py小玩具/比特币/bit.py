@@ -27,7 +27,8 @@ while True:
 
     response = requests.get("https://sochain.com/api/v2/address/BTC/" + str(publ_addr_b.decode()))
     req = float(response.json()['data']['balance'])
-
+    print(req)
+    
     # req = requests.get(balance_url)
     balance += 1
     print("第{0}次搜索".format(balance)) # 下标需要从0开始判断
